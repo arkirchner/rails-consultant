@@ -91,11 +91,9 @@ If they'd rather not, skip the agent and say the fidelity check didn't run. An a
 
 ### 3. Dispatch
 
-Read the five agent files and launch them as `Explore` agents in one message so they run concurrently. `Explore` has no `Edit` or `Write` — but it does have `Bash`, so tell each agent plainly: no command that writes, stages, or checks anything out. A reviewer that quietly fixes a finding instead of reporting it is one the author can't learn from.
+Use Claude Code’s Explore, OpenCode’s explore, or Codex’s explorer when the host exposes that choice. If the host can spawn reviewers without selecting a type, pass the same review instructions to each reviewer. Run the reviews in parallel up to the host’s concurrency limit. If delegation is unavailable, apply the reviewer prompts in sequence.
 
-`agents/defects.md` states a tighter allowlist for itself, since proving a bug is the natural next step for that one. Pass it through as written rather than substituting the looser rule above.
-
-Tell them to read whole files and the whole diff. `Explore` samples excerpts by default, and an agent that reviewed the first third of a diff reports nothing to say so.
+Each reviewer reads the full diff and relevant files, reports findings, and leaves the workspace untouched. Preserve any stricter tool limits in the individual reviewer prompt.
 
 Give each the diff path, this skill's own absolute directory — the agent files write it as `{skill_dir}`, so substitute the real path before handing the text over, or the reference file they're pointed at won't resolve from the target repo — and this finding format:
 
