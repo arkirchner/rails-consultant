@@ -33,11 +33,17 @@ Install the plugin:
 /plugin install rails-consultant@skills
 ```
 
-### Codex, and other agents
+### OpenCode and Codex
 
 ```
 npx skills@latest add thoughtbot/rails-consultant
 ```
+
+Choose OpenCode or Codex when prompted. In OpenCode, ask it to load the skill
+by name, such as “Use the `slice` skill for invoice export,” or use `@slice` in
+OpenCode V2. In Codex, use `$slice` followed by the request. The examples below
+use Claude Code's `/slice` syntax. See [OpenCode skills][opencode-skills] and
+[Codex skills][codex-skills] for discovery and invocation.
 
 ## How to use these skills
 
@@ -47,8 +53,10 @@ of **new sessions** when building out a feature from start to finish.
 ### Discovery and planning
 
 > [!TIP]
-> Not sure how to ask for something, like "why can't some users log in?", or
-> which Claude feature fits a job? Start with [`/ask-claude`][38].
+> If you use Claude Code and want help choosing a feature or writing a prompt,
+> start with [`/ask-claude`][38]. In OpenCode or Codex, ask which feature fits
+> the job and request a prompt you can review before it runs. Point the agent
+> to the [OpenCode docs][opencode-skills] or [official OpenAI docs][codex-skills].
 
 0. Optionally, use [`/domain-model`][26] on new projects or features to capture
    business logic.
@@ -73,10 +81,13 @@ of **new sessions** when building out a feature from start to finish.
 
 ### Verification and review
 
-5. Then, run `/verify` to confirm the change against the running app, not just
-   the tests. This is [built into Claude Code][30].
-6. Then, run [`/diff-explainer`][6] to create an [artifact][7] that will
-   help you understand the changeset.
+5. Verify the change against the running app. Use Claude Code's [verification
+   skill][30], or ask OpenCode or Codex to start the app with the project's
+   documented setup and exercise each acceptance criterion through its normal
+   entry point. Ask it to report what it exercised and what remains unverified.
+6. Then, run [`/diff-explainer`][6] to create an HTML walkthrough. Claude Code
+   can publish it as an [Artifact][7]. OpenCode and Codex can save it locally
+   for you to open in a browser.
    - After reviewing the artifact, use [`/rubber-duck`][24] to slow down and
      scrutinize generated code, or [`/understand`][25] to reinforce your
      understanding. If you need more help, start with [`/eli5`][28].
@@ -84,13 +95,15 @@ of **new sessions** when building out a feature from start to finish.
    yourself. The feature is your responsibility, and writing about it helps it
    stick.
 
-### Running them as a dynamic workflow
+### Running them as a workflow
 
-Steps 2 through 5 are mechanical once the SPEC exists, so [`/ship`][31] runs
-them as a [workflow][21], then opens a draft PR with `/pr --auto`:
+[`/ship`][31] runs steps 2 through 5 and opens a draft PR with `/pr --auto`.
+Use `/ship docs/specs/the-slug.md` in Claude Code to run the [dynamic
+workflow][21], or start the same phases with subagents in OpenCode or Codex:
 
-```
-/ship docs/specs/the-slug.md
+```text
+OpenCode  Use the ship skill with docs/specs/the-slug.md.
+Codex     $ship docs/specs/the-slug.md
 ```
 
 Each step gets its own context, and each one commits with [`/commit`][32] before
@@ -105,16 +118,16 @@ uploads them yet.
 ## Evals
 
 Every skill has [eval cases][40] in `evals/<skill>/`. The ones for
-[`/ask-claude`][39] sit directly in `evals/`. Run one skill's cases from the
-repo root:
+[`/ask-claude`][39] sit directly in `evals/`. Run one skill's cases using
+the Claude Code eval runner from the repo root:
 
 ```
 claude plugin eval . --case 'slice-*' --scaffold --max-cost-usd 10 --allow-tools Write Bash
 ```
 
 - Case names start with the skill's name, which is what `--case` matches.
-- `--scaffold` runs each case's `scaffold.sh`, which builds the sample app it
-  runs against.
+- `--scaffold` runs the fixture declared in the case's `case.yaml`, which
+  builds the sample app it runs against.
 - Most skills need `--allow-tools Write Bash`. `/ship` also needs `Edit
 Workflow`. `/ask-claude` needs `"WebFetch(domain:code.claude.com)"
 "WebFetch(domain:platform.claude.com)"` instead.
@@ -124,8 +137,27 @@ Workflow`. `/ask-claude` needs `"WebFetch(domain:code.claude.com)"
   shouldn't trigger a skill to about $2.40 for a `/ship` run.
 - The CLI needs its own login, even inside the desktop app: `claude auth login`.
 - Results go to `evals/results/`, which is gitignored.
-- Cases with a `scaffold.sh` need `--scaffold`. The `/pr` cases also need
-  `--allow-tools Bash Write Edit Agent`.
+- The `/pr` cases also need `--allow-tools Bash Write Edit Agent`.
+
+To check a portable skill in OpenCode or Codex, open a disposable workspace. If
+the case declares `context.scaffold_script` in `case.yaml`, run that script from
+the workspace, using its path relative to the case directory. Send the body of
+`prompt.md` in a fresh session with the skill installed and follow any
+interactive turns.
+
+Use `graders/` as the checklist. Check replies and files against the same
+expected outcomes. For trace checks, look for the equivalent host events or
+artifacts. For example:
+
+- Check skill selection and delegation in the host's session record. For
+  multi-lens review, check the lens results and any disclosed sequential
+  fallback. For the empty-diff case, check that no reviewer started.
+- For Ship attribution, inspect the final draft PR body and inline notes, or
+  the retained draft if the PR could not open. Check the model or host credit
+  on the body and each note.
+
+Mark a check unverified when the host exposes no equivalent evidence. The
+Claude Code runner still uses its own YAML tool and trace settings.
 
 ## Reference
 
@@ -163,8 +195,9 @@ explain the change in those terms:
 /diff-explainer from the perspective of a WordPress developer
 ```
 
-Otherwise it uses the background in your `CLAUDE.md`, if there is one, and
-explains the change in the stack's own terms if not.
+Otherwise it uses the background in your project instructions (`AGENTS.md`
+or `CLAUDE.md`) when available. With no background, it explains the change in
+the stack's own terms.
 
 Finally, in order to be consistent across artifacts, the template ships its own
 small stylesheet, so every walkthrough looks the same.
@@ -195,14 +228,15 @@ Intended to be run after `/preparatory-refactor`, but before
 
 ### Multi-lens review
 
-[`/multi-lens-review`][15] reviews a change with five parallel subagents: one
+[`/multi-lens-review`][15] reviews a change through five lenses: one
 hunting defects (bugs, performance, security), one checking we adhered to the
 SPEC, one on code quality and reducing [smells][16], one identifying emerging
-domains, and one asking what still depends on the behavior we replaced.
+domains, and one asking what still depends on the behavior we replaced. It
+uses parallel subagents where available and runs the lenses in sequence otherwise.
 
-The defects subagent stands in for the built-in `/code-review` [command][1],
-and covers the ground `/security-review` does too. It's not named `/review`
-because Claude Code ships a built-in `/review`.
+In Claude Code, the defects lens covers the ground of the built-in
+[`/code-review` and `/security-review` commands][1].
+In Codex, use [native `/review`][codex-review] for an optional second pass.
 
 ### Preparatory refactor
 
@@ -241,7 +275,7 @@ with `--screenshots`, and it embeds them in the body:
 
 [`/risk-score`][43] scores how risky a PR or branch is and replies with JSON,
 so CI can act on it. A script does the scoring with fixed rules, so the same
-diff always gets the same score. Claude only picks the diff and hands back what
+diff always gets the same score. The agent picks the diff and hands back what
 the script printed, even when you tell it the change is tiny.
 
 ```
@@ -255,8 +289,7 @@ migrations, config, and dependency files of most stacks, not just Rails: a Knex
 `dropColumn` scores the same as a Rails `remove_column`. To change how
 something scores, change `skills/risk-score/scripts/score.py` in a PR of its own.
 
-The script doesn't need Claude. In CI, pipe a diff straight in and gate on the
-level:
+In CI, run the script directly and gate on the level:
 
 ```
 gh pr diff 123 | python3 skills/risk-score/scripts/score.py | jq -e '.level != "high"'
@@ -269,8 +302,8 @@ down and scrutinize generated code or a SPEC generated by `/slice`.
 
 ### Ship
 
-[`/ship`][31] runs steps 2 through 5 against a SPEC as a [dynamic
-workflow][21] and opens a draft PR.
+[`/ship`][31] runs steps 2 through 5 against a SPEC and opens a draft PR. It uses
+Claude Code's [Workflow tool][21] or the host's subagents.
 
 ### Slice
 
@@ -292,7 +325,7 @@ Pass `--auto` to run it without a human, like from a GitHub issue:
 ```
 
 It skips the interview and makes the cuts itself. A fresh subagent reviews the
-draft in place of you, and anything it had to guess goes under
+draft when delegation is available, and anything the draft had to assume goes under
 `## Assumptions`. It replies with the SPEC instead of writing a file, so the
 reply can be posted as a comment on the issue.
 
@@ -387,3 +420,6 @@ We are [available for hire][hire].
 [40]: https://code.claude.com/docs/en/plugin-evals
 [42]: https://github.com/stevepolitodesign/skills/discussions/71
 [43]: skills/risk-score/SKILL.md
+[codex-skills]: https://developers.openai.com/codex/skills
+[codex-review]: https://learn.chatgpt.com/docs/developer-commands?surface=cli#ask-for-a-working-tree-review-with-review
+[opencode-skills]: https://opencode.ai/docs/skills/

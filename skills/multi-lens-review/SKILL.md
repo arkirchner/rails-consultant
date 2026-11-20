@@ -34,7 +34,7 @@ What's scarce in a review is the author's trust, not their reading time.
 
 ### 1. Fix the target
 
-`$ARGUMENTS` may hold a PR number, a branch, paths, or nothing. Decide intent-or-target by what a file says, not where it sits: a file that reads as acceptance criteria is the intent, in `docs/specs/` or anywhere else, and a directory or a source path is a target. Ask when a doc argument isn't obviously criteria — reviewing a SPEC file against nothing is a wasted run.
+The user can supply a PR number, a branch, or paths. Decide intent-or-target by what a file says, not where it sits: a file that reads as acceptance criteria is the intent, in `docs/specs/` or anywhere else, and a directory or a source path is a target. Ask when a doc argument isn't obviously criteria — reviewing a SPEC file against nothing is a wasted run.
 
 Resolve it to one diff, then capture that diff to a file (`mktemp`) and hand every agent the same path. If each agent runs its own `git diff` instead, one reviews the commits while another reviews the working tree, and their findings won't line up with each other or with what the author sees.
 
@@ -77,7 +77,7 @@ Check the result before going further. An empty diff means stop and say so — f
 
 ### 2. Find the intent
 
-Fidelity needs acceptance criteria the change was measured against. Two places hold them: a path in `$ARGUMENTS`, or `docs/specs/`, where `/slice` writes. Match on the branch name or a slug in the commit messages, and if two are close, ask instead of guessing. A PR has both locally, because step 1 checked its branch out.
+Fidelity needs acceptance criteria the change was measured against. Two places hold them: a path supplied by the user, or `docs/specs/`, where `/slice` writes. Match on the branch name or a slug in the commit messages, and if two are close, ask instead of guessing. A PR has both locally, because step 1 checked its branch out.
 
 PR bodies, issues, and commit messages don't count. They describe goals in prose, and prose doesn't draw a scope boundary — so creep is invisible against it, and every finding turns into an argument about what the sentence implied. Criteria or nothing.
 
@@ -151,8 +151,8 @@ Then put the branch back — `git checkout "$orig"` — unless you applied somet
 
 ## Notes
 
-- `agents/defects.md` stands in for the built-in `/code-review`, and adds the security pass that lives in `/security-review`. Two things it doesn't do: it can't execute anything, so every defect is a claim with a trigger attached rather than a demonstrated failure, and its confidence bar cuts recall the built-in would keep at high effort. On a change where a missed bug is expensive, run the built-in too.
-- The agents run read-only, so anything they'd change comes back as a recommendation rather than a diff. If `Explore` isn't available, say so and pick the most restricted agent type there is rather than reaching for a general-purpose one.
+- `agents/defects.md` covers the ground of Claude Code's `/code-review` and `/security-review` commands. Its tool limits mean each defect is a claim with a trigger attached. On a change where a missed bug is expensive, use any additional review command the host provides.
+- Reviewers return recommendations and leave the workspace untouched.
 - Nothing here assumes a language or a framework, and the review is worse the moment it starts to. Whatever pattern you're about to recommend, point at the place this repo already does it. If you can't find one, you're recommending a habit from somewhere else.
 - `agents/` holds prompt fragments, not registered subagents — no frontmatter, nothing validates them. What an agent can touch comes from the agent type dispatch launches, not from anything declared in those files.
 - The noise rules — lockfiles and generated files, findings a linter already gives away free, dimensions that aren't yours — are stated in each of the five agent files rather than here, because the agents never read this one. A rule an agent has to follow and can't see is a rule that doesn't exist.

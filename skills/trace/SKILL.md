@@ -18,7 +18,7 @@ first is worse, because nothing about it looks wrong.
 
 ## 1. Pin the scenario
 
-The scenario is `$ARGUMENTS`, or ask for one. It arrives as a sentence ("user creates
+Use the scenario in the user's request, or ask for one. It arrives as a sentence ("user creates
 an account"), a route, a command, a job name.
 
 Turn it into three things before running anything:

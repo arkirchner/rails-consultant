@@ -26,8 +26,7 @@ Read [Autonomous mode](#autonomous-mode) first; it replaces steps 2 through 6.
 
 ## 1. Recon
 
-Base branch is `$ARGUMENTS` (minus `--auto` and `--screenshots`), or the repo default (`gh repo view --json
-defaultBranchRef`, falling back to `main`).
+Use the base branch supplied by the user after parsing `--auto` and `--screenshots`, or the repo default (`gh repo view --json defaultBranchRef`, falling back to `main`).
 
 Read, don't ask:
 
@@ -199,13 +198,14 @@ inventing rationale. Short beats thorough; a reviewer skims a long PR.
 - **Screenshots only when passed in.** `--screenshots` takes image URLs the
   caller already hosted. Embed each one; don't take, upload, or commit any
   yourself. None passed: no screenshots section.
-- **Have it checked.** One fresh subagent gets the body, the notes, and the
+- **Have it checked.** One fresh read-only subagent gets the body, the notes, and the
   base branch, and reads the commits and diff itself. Ask for: claims the
   diff doesn't back, a reason the commits, SPEC, and diff never give, a
   risk you missed, any note that would still be true with the diff hidden,
   and anything in the body or a note's plain paragraph a non-technical
   reader would trip on. Skip wording. Fix once. An analogy or drawing
-  that's wrong gets fixed, not cut.
+  that's wrong gets fixed, not cut. If delegation is unavailable, check the draft
+  yourself and tell the user the description had no independent review.
 - **Title** as in step 3.
 
 The default body:
@@ -244,18 +244,16 @@ _Claude Opus 5.5 (claude-opus-5-5)_
 
 ### Attribution
 
-Name the model from your system prompt: its name and exact ID, like
-`Claude Opus 5.5 (claude-opus-5-5)`. Don't know it? Write `Claude` alone.
-Never guess a model.
+Use the model name and exact ID when the host supplies them. If the model is
+unknown, name the host (`Claude Code`, `OpenCode`, or `Codex`).
 
 - **Body**, last line, its own paragraph:
-  `_Written by Claude Opus 5.5 (claude-opus-5-5) with /pr --auto. No human
+  `_Written by {model or host} with /pr --auto. No human
 has edited this yet._`
-- **Each note**, its own last line: `_Claude Opus 5.5 (claude-opus-5-5)_`.
+- **Each note**, its own last line: `_{model or host}_`.
   Notes show up one at a time on GitHub, so each one needs it.
 
-This is the only attribution. No "Generated with Claude Code" line or
-co-author trailer on top of it.
+Use only the attribution line specified above.
 
 ### Voice
 

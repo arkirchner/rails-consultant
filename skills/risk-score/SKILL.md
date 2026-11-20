@@ -16,7 +16,7 @@ script, made in a PR of its own. Bending one score breaks the thing CI trusts.
 
 ## 1. Pick the diff
 
-`$ARGUMENTS` decides:
+Use the target in the user's request:
 
 - A number, or a GitHub PR URL: the PR.
 

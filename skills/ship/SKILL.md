@@ -24,7 +24,13 @@ the review instead of the change.
 
 ## Run it
 
-Hand `assets/workflow.js` to the Workflow tool, with the SPEC path as `args`:
+Use the SPEC path supplied by the user. Ask for the path if it's missing.
+
+In OpenCode or Codex, or if the Workflow tool is unavailable, follow
+[Run with subagents](references/subagent-workflow.md) in the parent session.
+
+In Claude Code with the Workflow tool, hand it `assets/workflow.js` with the
+SPEC path as `args`:
 
 ```
 Workflow({
@@ -35,10 +41,6 @@ Workflow({
 
 If `scriptPath` is refused, read the file and pass its contents as `script`
 instead. Don't rewrite it inline from memory.
-
-No SPEC path? Ask for one. The script throws without it, and every step after
-`Prepare` measures itself against those acceptance criteria — the chain has
-nothing to aim at otherwise.
 
 ## When it returns
 
@@ -94,7 +96,7 @@ Committed so far: due dates (criterion 1), suite green.
 Decisions can be a short bullet list. Skip a line per step; the step reports
 stay with you, so hand them over when asked.
 
-## Why the script does the fan-out
+## Why the Claude Code script does the fan-out
 
 A subagent has no tool for spawning subagents. Nested delegation doesn't exist,
 and `agentType: 'general-purpose'` doesn't buy it either — both were checked.

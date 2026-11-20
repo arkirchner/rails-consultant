@@ -14,7 +14,7 @@ almost anything, and plausible isn't correct. A failing test tells them apart.
 
 ## What you were handed
 
-The thing to build: `$ARGUMENTS`
+Use the SPEC, plan, or description supplied in the user's request.
 
 If that's empty, ask. If it's a path, read it.
 

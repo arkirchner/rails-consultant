@@ -26,7 +26,7 @@ Arguments start with `--auto`? Nobody will answer. Read [Autonomous mode](#auton
 
 ### 1. Capture the raw idea
 
-The feature, if the user passed one: `$ARGUMENTS`
+Use the feature or idea supplied in the user's request.
 
 If that's empty, ask what they're building. Don't tidy up the answer. The messy version carries the motivation you need for the job story.
 
@@ -36,7 +36,7 @@ Finish this before you ask anything. An interview run blind produces cuts that s
 
 Check how much codebase there is first (`git log --oneline | wc -l`, a source file count). A near-empty repo has nothing to find, so say that and go straight to the interview.
 
-Otherwise tell the user you're reading the codebase first. Then launch subagents in parallel (`Explore`, or `general-purpose`), one per angle:
+Otherwise tell the user you're reading the codebase first. Use Claude Code's `Explore`, OpenCode's `explore`, or Codex's `explorer` when available. A general or untyped subagent gets the same instructions to read and report without changing files or git state. Run one subagent per angle in parallel up to the host's concurrency limit and wait for their reports.
 
 - **Closest prior art.** The existing feature most like this one, traced end to end. These are the files worth copying.
 - **Territory.** Every layer this would touch, in whatever form the project has them. What's already there, what's missing.
@@ -56,7 +56,7 @@ If the idea already arrives slice-sized, say so and go straight to step 4. The r
 
 Rounds of 2 to 4 questions. One at a time is a slog; twelve at once is a survey.
 
-**Lead with a cut.** "Should we include search?" makes the user do the work, and they'll say yes. Instead: _"I'm cutting search. With a dozen records the user can scan the list. Push back if that's wrong."_ A proposed cut is easy to accept and easy to reject, so it moves fast, and whatever they defend tells you what actually matters. Use `AskUserQuestion` when the choices are genuinely enumerable, plain questions otherwise.
+**Lead with a cut.** "Should we include search?" makes the user do the work, and they'll say yes. Instead: _"I'm cutting search. With a dozen records the user can scan the list. Push back if that's wrong."_ A proposed cut is easy to accept and easy to reject, so it moves fast, and whatever they defend tells you what actually matters. When the choices are genuinely enumerable, use the host's question tool if available (`AskUserQuestion` in Claude Code, `question` in OpenCode, or `request_user_input` in Codex). Ask in chat for open-ended questions or when the tool is unavailable.
 
 **Defend the cuts you propose.** If they ask why, answer it rather than restating the cut. A cut you can't answer for wasn't grounded in the recon, so withdraw it.
 
@@ -128,7 +128,7 @@ What changes:
 
 - **Recon as in step 2.** Skip the 3 to 5 line summary; nobody is there to catch a misread.
 - **No interview.** Make the cuts yourself, by the same rules: the cut test, the guardrails, changing the axis. Everything you'd have proposed is now decided.
-- **Draft, then have it reviewed.** Fill in the template, then launch one fresh subagent with the draft, this skill's path, and the paths you read. It never saw your reasoning, so it can't be talked into it. Ask it to check: the template's shape kept word for word (`When` / `I want to` / `So I can`, `Given` / `when` / `then`), since the next step parses it; one job story, criteria a user could observe, cuts grounded in files that exist, guardrails kept, no horizontal slice. Tell it to report only problems that change the scope or make a criterion uncheckable, and to skip wording and style. A reviewer asked for problems always finds some.
+- **Draft, then have it reviewed.** Fill in the template, then launch one fresh read-only subagent with the draft, this skill's path, and the paths you read. It never saw your reasoning, so it can't be talked into it. Ask it to check: the template's shape kept word for word (`When` / `I want to` / `So I can`, `Given` / `when` / `then`), since the next step parses it; one job story, criteria a user could observe, cuts grounded in files that exist, guardrails kept, no horizontal slice. Tell it to report only problems that change the scope or make a criterion uncheckable, and to skip wording and style. If delegation is unavailable, check the same criteria yourself and disclose that the draft had no independent review.
 - **Revise once.** Fix what holds up, drop what doesn't. No second review.
 - **Guess, and say so.** Anything only a human could answer, like who receives an email or which plan a limit applies to, gets your best guess, recorded under `## Assumptions`. A guess the reader can see costs one edit; a guess buried in a criterion ships.
 - **No file.** Don't write `docs/specs/`. On a CI runner it's thrown away unless pushed, and the comment is the handoff.
@@ -152,7 +152,7 @@ _Written by {model name} ({model ID}) with /slice --auto. No human has edited th
 
 No code block around the SPEC: GitHub would show it as raw text. Write the two marker lines exactly as shown, each on its own line. GitHub hides them, so the SPEC renders, and the next step finds the SPEC by them.
 
-The last line says which model wrote the comment, so a reader can tell AI text from a human's. Take the name and exact ID from your system prompt, like `Claude Opus 5.5 (claude-opus-5-5)`. Don't know it? Write `Claude` alone; never guess a model. Keep it below `<!-- /spec -->`, so it never lands in the SPEC.
+The last line names the model that wrote the comment, so a reader can tell AI text from a human's. Use the model name and exact ID when the host supplies them. If the model is unknown, name the host (`Claude Code`, `OpenCode`, or `Codex`). Keep the line below `<!-- /spec -->` so it stays outside the SPEC.
 
 ## Job story craft
 

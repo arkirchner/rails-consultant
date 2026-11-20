@@ -151,10 +151,14 @@ whole app down" is a fact they'd have to dig for; "that's the call I'd like you 
 sign off on" steers. What the branch deliberately doesn't do is a fact too: put it
 in "Start here", without "easy to add if you'd rather".
 
-Write the filled page to your scratchpad as `walkthrough.html` and publish it with
-the Artifact tool (favicon `🔍`, a one-sentence description, the change's name as
-the title) and hand over the link. If your environment wants `artifact-design`
-loaded first, load it, but keep the template's `<style>` block: it is this page's
-design system.
+In Claude Code, save the filled page as `scratchpad/walkthrough.html`, creating
+the scratchpad directory if needed. On other hosts, use an existing writable
+scratchpad when available. If the scratchpad is unavailable, use another
+writable output directory and keep the filename `walkthrough.html`.
+
+Keep the template's `<style>` block, use the change's name as the title, add a
+one-sentence description, and use `🔍` as the favicon. In Claude Code, use the
+Artifact tool when available and return its link. For local output, give the
+user the path to open in a browser.
 
 [voice]: https://thoughtbot.com/playbook/the-thoughtbot-way/brand/voice-and-tone

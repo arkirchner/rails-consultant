@@ -22,19 +22,19 @@ You identify, you don't refactor. Nothing here edits code. The report has to sur
 
 ### 1. Get the feature
 
-The feature, if the user passed one: `$ARGUMENTS`
+Use the feature or SPEC supplied in the user's request.
 
 It may be a path to a SPEC, a slug matching a file in `docs/specs/` (where `/slice` writes), or a sentence. Prose is fine — you need to know what the code has to do, not how it'll be worded. If it's vague enough that you can't guess which files it touches, ask one question rather than reading the whole repo hoping to find out.
 
 ### 2. Find where it lands
 
-Three angles, in two waves — the other two are defined in terms of the site's paths, so they can't be dispatched until the site comes back. Every one of them is a subagent: `Explore`, which is read-only, but it does have `Bash`, so tell each plainly to read and report, no command that writes, stages, or checks anything out. Tell each one to read whole files rather than sampling excerpts, ask for exact paths and line numbers over prose, and cap it at the 10 files most worth reading. "The highlighter handles ranges" isn't something you can sketch a diff against, and an agent that sampled its way past half the callers reports the ones it saw without saying it stopped.
+Run three angles in two waves. The second wave needs the paths from the first. Use Claude Code's `Explore`, OpenCode's `explore`, or Codex's `explorer` when available. A general or untyped subagent gets the same instructions. Tell each to read whole files and report exact paths and line numbers. Cap each at the 10 most relevant files. Each agent leaves the workspace and git state untouched.
 
 Wave one is **the site**: the function, module, or file where this behavior would go, and every caller. Tell the user recon is running, and that the sketch may reach them before the rest of it does.
 
 If the SPEC has a `## Where to look` section, hand those paths to wave one as candidates rather than making it find them cold. They're where an earlier session found the relevant code, not a verdict on the site: that list was written at a commit the section names, and it never had callers as its job. Wave one still has to confirm the site and find every caller, and it can contradict the list.
 
-The moment it lands, dispatch wave two in one message, with the real paths substituted in, then leave both running in the background while you sketch:
+When the site report lands, dispatch wave two with the real paths. Run both in parallel if the host allows it, and sketch while they run if the host supports background work.
 
 - **Prior art.** `git log --oneline -20 -- <the site paths>`, then read the two or three commits that added behavior rather than fixed it. Report each commit's file list.
 - **The safety net.** Which tests cover the site, and the command that runs them.
@@ -43,11 +43,11 @@ Then read the site files yourself. You can't judge whether a move is behavior-pr
 
 Both of wave two have to be in hand before step 4 — wait rather than proceed. If one failed outright, say which one in the report; never fill in what you expect it would have found. If it's the safety net, say that on its own line instead of writing `Covered by: nothing`, which means something specific (see Notes).
 
-If `Explore` isn't available, use the most restricted agent type there is rather than reaching for a general-purpose one. No subagents at all? Say so, then grep and skim the three angles yourself, timeboxed. Slower, and the risk is you stop at the first plausible site instead of the right one.
+If delegation is unavailable, say so and do a timeboxed pass yourself. Find the site first, then check prior art and the tests covering those paths.
 
 ### 3. Sketch the naive diff
 
-Write out what you would change if you started on the feature right now, save it to a file (`mktemp`), and show it to the user before you read anything else in this skill.
+Write out what you would change if you started on the feature right now. Show the sketch to the user before you read anything else in this skill. Save it to a temp file with `mktemp` if the host allows scratch files. In a read-only subagent, return the sketch in the report.
 
 Every line names a real file, a real function, and what you'd add to it — `lib/highlighter.rb:12 CodeHighlighter#call, add a range check inside the map block` — not "update the highlighter."
 

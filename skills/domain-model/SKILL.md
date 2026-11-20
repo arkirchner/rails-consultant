@@ -30,7 +30,7 @@ No entities-versus-value-objects, no repositories, no schema, no class diagram â
 
 ### 1. Capture the process
 
-The process, if the user passed one: `$ARGUMENTS`
+Use the business process supplied in the user's request.
 
 That may be prose or a path â€” a transcript, a ticket, meeting notes. Read the file if it's a path. If it's empty, ask them to walk you through how the process works today, including the parts done by hand and the exceptions, because the exceptions are where the domain lives.
 

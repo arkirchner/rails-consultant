@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+- Run `/ship` with native subagents in OpenCode and Codex. Claude Code can
+  still use its Workflow tool.
+- Use each host's exploration agents and question tools for research and planning.
+  Diff walkthroughs can be saved as local HTML, and automated SPEC and PR
+  attribution uses the actual model or host.
+
 ## [2.1.0] - 2026-11-06
 
 - `/diff-explainer` pages use thoughtbot's brand colors and type, per

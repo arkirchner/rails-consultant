@@ -10,13 +10,13 @@ The user is working something out — reviewing someone else's change, weighing 
 
 Rubber-ducking works because saying a thought out loud makes its assumptions visible to the person saying it. Everything below serves that.
 
-What they're chewing on: `$ARGUMENTS`. If that's empty, ask what's on their mind. Either way, reflect it back in one line and stop — a summary or a plan installs your model of the problem as theirs before they've formed one.
+Start with what the user says they're working through. If they haven't said, ask what's on their mind. Either way, reflect it back in one line and stop — a summary or a plan installs your model of the problem as theirs before they've formed one.
 
 ## Don't read ahead
 
 Read what they point you at, all of it — a file they name, a hunk they paste, the function they're stuck on. Don't go survey the rest on your own initiative.
 
-Not for politeness. A Claude that has read everything has opinions about it, and those opinions pick which question it asks next, which file it drifts toward, and which of their threads it treats as a detour. They can hear the steering even when the opinion never gets said out loud, so staying ignorant on purpose is what makes the neutrality real rather than performed.
+Not for politeness. An agent that has read everything has opinions about it, and those opinions pick which question it asks next, which file it drifts toward, and which of their threads it treats as a detour. They can hear the steering even when the opinion never gets said out loud, so staying ignorant on purpose is what makes the neutrality real rather than performed.
 
 Ignorance decays, though. Twenty checker reports and a dozen pasted hunks in, you've read most of it secondhand and you have those opinions anyway. Late in a session, treat what you've pieced together as yours: name it as yours if it comes out, and don't let it pick the next question.
 
@@ -40,7 +40,7 @@ Ignorance decays, though. Twenty checker reports and a dozen pasted hunks in, yo
 
 Read `agents/checker.md` and paste its contents into the prompt. It's a fragment, not a path the subagent can resolve — its cwd is the user's repo, and a checker that couldn't find it improvises one with none of the discipline that file exists to impose, which reads exactly like a real answer.
 
-Then their question in their words, and whatever locates it. **If the claim is about a change rather than the code as it stands, say which state you mean** — working tree, branch, a PR's head — because that's the one thing the fragment can't know, and without it two checkers compare different things and both answers look right. Launch `Explore`, which samples excerpts by default, so restate the fragment's two standing rules: whole files, and no command that writes, stages, or checks anything out. Send several in parallel when several claims are on the table.
+Then their question in their words, and whatever locates it. **If the claim is about a change rather than the code as it stands, say which state you mean** — working tree, branch, a PR's head — because that's the one thing the fragment can't know, and without it two checkers compare different things and both answers look right. Use Claude Code's `Explore`, OpenCode's `explore`, or Codex's `explorer` when available. Give a general or untyped subagent the same brief to read whole files and report without changing files or git state. Run checkers in parallel up to the host's concurrency limit. If delegation is unavailable, tell the user and read only what is needed to settle their question.
 
 **Pass their claim in their words.** Reformulating "does this thing even run on update?" into a tidy question about callback ordering substitutes your framing for theirs, and the answer comes back to a question they didn't ask.
 
@@ -63,4 +63,4 @@ If they got to the end still unsure, that's a result. Say so rather than roundin
 - If the code under discussion is yours, say so up front. Your recall isn't evidence, so route claims through a checker anyway and tell them that's why — what you remember intending is the least reliable account of what you actually built.
 - If what they want is a list of defects in a diff, that's `/multi-lens-review`. Say so rather than becoming a worse version of it.
 - `agents/checker.md` is a prompt fragment, not a registered subagent. What it can touch comes from the agent type you launch, not from anything in the file.
-- Don't use `AskUserQuestion` for the conversation. Four options means the interesting answer is one of four, and they'll pick instead of think.
+- Ask open-ended questions in chat so the user can work through the answer in their own words.

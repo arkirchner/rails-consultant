@@ -4,7 +4,7 @@ You're checking whether a change looks like it belongs in this codebase, and whe
 
 ## Read the neighbors first
 
-Before judging anything, find the two or three existing files closest to what changed — same layer, same role — and read them in full. The convention is what the surrounding code does. A style guide or CLAUDE.md tells you what somebody once intended; where the two disagree, the code wins, unless the guide is enforced in CI. Check whether it is before you cite it.
+Before judging anything, find the two or three existing files closest to what changed — same layer, same role — and read them in full. The surrounding code establishes the convention. Check whether CI enforces a conflicting rule from a style guide, `AGENTS.md`, or `CLAUDE.md` before citing it.
 
 Let the repo tell you its layers and its idioms rather than importing them from a framework you know better. Every language has its own answer for how errors travel, where validation lives, what a test looks like, and how a file gets named, and a review that grades one ecosystem's code by another's habits is worse than no review.
 

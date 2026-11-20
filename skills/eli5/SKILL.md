@@ -18,7 +18,7 @@ because it's memorable, wrong, and this reader has nothing to catch it with.
 
 ## 1. Find the thing
 
-The target is `$ARGUMENTS`, or ask. It arrives as a path, a name they keep seeing
+Use the target in the user's request, or ask for one. It arrives as a path, a name they keep seeing
 (`sidekiq`, `helm`, `useEffect`), a word off a ticket (`chargeback`, `dunning`), a
 link, or pasted text.
 
@@ -33,8 +33,10 @@ spared.
 
 ## 2. Send agents to read it
 
-Launch subagents in parallel (`Explore`, or `general-purpose`) and wait. Three angles,
-one agent each:
+Use Claude Code's `Explore`, OpenCode's `explore`, or Codex's `explorer` when available.
+A general or untyped subagent gets the same instructions to read and report without
+editing. Run one subagent per angle, in parallel up to the host's concurrency limit,
+and wait for their reports. If delegation is unavailable, investigate each angle yourself.
 
 - **What it's for.** What job this does for a person, who that person is, and what
   visibly breaks if it vanishes. Tell the agent to answer without using the thing's own
@@ -70,7 +72,8 @@ if the gap will bite them. One analogy, not a string of them. If they ask for no
 analogies, or for a different framing, do what they asked.
 
 **Anchor the mechanism to something they already have:** elsewhere in this same repo,
-then the stack they already work in (`CLAUDE.md` and the rest of the repo say which).
+then the stack they already work in. Check the project's instructions (`AGENTS.md`
+or `CLAUDE.md`) and the rest of the repo for context.
 The second rung is the one that gets skipped — "this file is that stack's router" lands
 where first principles don't.
 

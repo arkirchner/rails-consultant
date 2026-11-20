@@ -1,6 +1,6 @@
 ---
 name: ask-claude
-description: Recommend the best way to have Claude do something, checked against Anthropic's current docs, then write the prompt and run it once approved. Use when someone asks how they should prompt you, what the best way to ask for something is, or which Claude feature fits a job (CLAUDE.md, skill, hook, subagent, workflow, plan mode, /goal, MCP, headless, the API), even if they don't name a feature.
+description: Help users prompt Claude or choose a Claude Code or Anthropic API feature. Check Anthropic's current docs, then write the prompt and run it once approved. In Claude Code, this also applies when someone asks how to prompt the current assistant or which feature would help. In other hosts, use only for requests specifically about Claude or Anthropic.
 argument-hint: '[task, e.g. "users can''t sign up" or "run rubocop after every edit"]'
 ---
 

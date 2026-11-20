@@ -21,7 +21,7 @@ false. The second is worse and harder to undo, which is why the reading comes fi
 
 ## 1. Pin the target and the stakes
 
-The target is `$ARGUMENTS`, or ask. It arrives in one of a few shapes, and all that
+Use the target in the user's request, or ask for one. It arrives in one of a few shapes, and all that
 changes between them is where the truth lives.
 
 - **A rev or a path** — `git rev-parse --verify --quiet <arg>` resolves it, or the file
@@ -55,11 +55,11 @@ leave it blank; an unbounded session has no way to end.
 
 ## 2. Ground truth before any questions
 
-Tell the user you're reading first, then launch subagents in parallel (`Explore`, or
-`general-purpose`) and wait. They read while you stay out of the files: you spend
-their context instead of yours, and what comes back is a fact sheet rather than a diff
-you now have to carry. No subagents? Say plainly you're working off a timeboxed skim,
-which is the weaker version of this.
+Tell the user you're reading first. Use Claude Code's `Explore`, OpenCode's `explore`,
+or Codex's `explorer` when available. A general or untyped subagent gets the same
+read-only brief. Run the angles in parallel up to the host's concurrency limit and
+wait for the fact sheets. If delegation is unavailable, investigate the angles
+yourself and disclose the limits of a timeboxed skim.
 
 Capture the target once and hand every agent the same thing — a diff written to a temp
 file (`mktemp`), a rev range, the fetched body, the paths. If they each resolve it
