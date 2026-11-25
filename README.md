@@ -159,6 +159,21 @@ artifacts. For example:
 Mark a check unverified when the host exposes no equivalent evidence. The
 Claude Code runner still uses its own YAML tool and trace settings.
 
+### OpenCode smoke test
+
+With OpenCode V2, Bash, Git, GNU `timeout`, and `jq` installed, run:
+
+```
+evals/multi-lens-review/archive-projects/opencode-smoke.sh
+```
+
+This scaffolds a disposable repository, copies the current
+`multi-lens-review` skill into it, and makes one real model call with your
+configured model and credentials. It checks SPEC discovery in `specs/`, both
+expected findings, the handoff question, and that the review leaves the code
+unchanged. The run has a 40-minute timeout and saves its reply and JSON trace
+under `evals/results/opencode-archive-projects/`.
+
 ## Reference
 
 ### Ask Claude

@@ -5,6 +5,8 @@
 - Use each host's exploration agents and question tools for research and planning.
   Diff walkthroughs can be saved as local HTML, and automated SPEC and PR
   attribution uses the actual model or host.
+- Add an OpenCode smoke eval for `multi-lens-review`'s SPEC discovery and
+  read-only review behavior.
 
 ## [2.1.0] - 2026-11-06
 
