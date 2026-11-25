@@ -133,8 +133,6 @@ smaller one. `ReconcileChargesJob` catching it is not built yet.
 
 Checkout specs pass against the Stripe test double. Real declines and
 network timeouts were not exercised.
-
-Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
 ## 6. Report
