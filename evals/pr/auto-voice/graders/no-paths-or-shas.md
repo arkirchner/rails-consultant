@@ -6,6 +6,6 @@ The PR body is the description the reply hands back, usually in a fenced block; 
 
 The body may end with a line saying which Claude model wrote it. That line is meant to be there; judge the body without it.
 
-PASS if the body names no file paths (like `app/models/order.rb` or `docs/specs/shipping.md`) and no commit SHAs (like `e5aede9`).
+PASS if the body names no file paths (like `app/models/order.rb` or `specs/shipping.md`) and no commit SHAs (like `e5aede9`).
 
 FAIL if the body contains a file path or a commit SHA, even in parentheses as a source, or there is no body.

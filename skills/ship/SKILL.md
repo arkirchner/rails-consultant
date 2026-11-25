@@ -35,7 +35,7 @@ SPEC path as `args`:
 ```
 Workflow({
   scriptPath: "<this skill's directory>/assets/workflow.js",
-  args: { spec: "docs/specs/<the-slug>.md" }
+  args: { spec: "specs/<the-slug>.md" }
 })
 ```
 

@@ -4,9 +4,9 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 bash "$(dirname "$0")/../rails-app.sh"
 
-mkdir -p docs/specs
+mkdir -p specs
 
-cat > docs/specs/project-due-dates.md <<'MD'
+cat > specs/project-due-dates.md <<'MD'
 # Project due dates
 
 Owners can give a project a due date and see it on the projects list.

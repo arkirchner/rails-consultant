@@ -2,8 +2,8 @@
 set -euo pipefail
 source "$(dirname "$0")/../shop-app.sh"
 
-mkdir -p docs/specs
-cat > docs/specs/discount-codes.md <<'MD'
+mkdir -p specs
+cat > specs/discount-codes.md <<'MD'
 # Discount codes
 
 Customers can enter a discount code at checkout to take a percentage off their order.

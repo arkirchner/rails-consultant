@@ -24,7 +24,7 @@ You identify, you don't refactor. Nothing here edits code. The report has to sur
 
 Use the feature or SPEC supplied in the user's request.
 
-It may be a path to a SPEC, a slug matching a file in `docs/specs/` (where `/slice` writes), or a sentence. Prose is fine — you need to know what the code has to do, not how it'll be worded. If it's vague enough that you can't guess which files it touches, ask one question rather than reading the whole repo hoping to find out.
+It may be a path to a SPEC, a slug matching a file in `specs/` (where `/slice` writes), or a sentence. Prose is fine — you need to know what the code has to do, not how it'll be worded. If it's vague enough that you can't guess which files it touches, ask one question rather than reading the whole repo hoping to find out.
 
 ### 2. Find where it lands
 

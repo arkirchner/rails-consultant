@@ -1,6 +1,6 @@
 ---
 type: regex
 target: { source: file, path: .git/index }
-pattern: "docs/specs/"
+pattern: "specs/"
 match: not_contains
 ---

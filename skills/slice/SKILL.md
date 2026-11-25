@@ -20,7 +20,7 @@ Arguments start with `--auto`? Nobody will answer. Read [Autonomous mode](#auton
 2. Recon the codebase with subagents. Wait for them; the interview depends on what they find.
 3. Run the interview to cut scope.
 4. Fill in the SPEC template and paste the whole thing in a message for review. This is the skill's only approval gate.
-5. Write the approved draft to `docs/specs/<slug>.md` and tell the user the path.
+5. Write the approved draft to `specs/<slug>.md` and tell the user the path.
 
 **The gate is the SPEC text, and it is the only gate.** Never end a turn with a prose recap of the slice and "confirm and I'll write the SPEC" — that asks the user to approve something they haven't read, which is the whole problem. If you're about to send that message, send the draft instead. And before writing the file, check one thing: the exact text you're about to write appeared in an earlier message and the user said yes to it. If it didn't, you're in step 4, not step 5.
 
@@ -81,7 +81,7 @@ Fill it in, then paste the filled-in file into the message. Not a description of
 The message looks like this, and nothing is on disk when you send it:
 
 ````
-Here's the SPEC I'd save to `docs/specs/{slug}.md`. Nothing written yet.
+Here's the SPEC I'd save to `specs/{slug}.md`. Nothing written yet.
 
 ```markdown
 {the filled-in template, in full}
@@ -114,7 +114,7 @@ Then stop. Don't write the file in the same turn as the playback, whatever their
 
 ### 5. Write the file
 
-Write to `docs/specs/<slug>.md` at the repo root (`git rev-parse --show-toplevel`), with a short kebab-case slug (`invoice-csv-export`, not `export-invoices-as-csv-file-v1`). Create the directory if it doesn't exist. If the file already exists, read it: same feature, ask whether to replace it or revise it in place; different feature, pick a different slug. Never auto-suffix, because `/multi-lens-review` finds SPECs by slug and can't tell two near-identical ones apart. Then tell the user the path.
+Write to `specs/<slug>.md` at the repo root (`git rev-parse --show-toplevel`), with a short kebab-case slug (`invoice-csv-export`, not `export-invoices-as-csv-file-v1`). Create the directory if it doesn't exist. If the file already exists, read it: same feature, ask whether to replace it or revise it in place; different feature, pick a different slug. Never auto-suffix, because `/multi-lens-review` finds SPECs by slug and can't tell two near-identical ones apart. Then tell the user the path.
 
 Write the draft they approved, unchanged. Anything you improve between approval and write is unreviewed, and the point of step 4 was that the file matches what they signed off on. If you spot a problem, show the corrected draft and get the nod again.
 
@@ -131,7 +131,7 @@ What changes:
 - **Draft, then have it reviewed.** Fill in the template, then launch one fresh read-only subagent with the draft, this skill's path, and the paths you read. It never saw your reasoning, so it can't be talked into it. Ask it to check: the template's shape kept word for word (`When` / `I want to` / `So I can`, `Given` / `when` / `then`), since the next step parses it; one job story, criteria a user could observe, cuts grounded in files that exist, guardrails kept, no horizontal slice. Tell it to report only problems that change the scope or make a criterion uncheckable, and to skip wording and style. If delegation is unavailable, check the same criteria yourself and disclose that the draft had no independent review.
 - **Revise once.** Fix what holds up, drop what doesn't. No second review.
 - **Guess, and say so.** Anything only a human could answer, like who receives an email or which plan a limit applies to, gets your best guess, recorded under `## Assumptions`. A guess the reader can see costs one edit; a guess buried in a criterion ships.
-- **No file.** Don't write `docs/specs/`. On a CI runner it's thrown away unless pushed, and the comment is the handoff.
+- **No file.** Don't write `specs/`. On a CI runner it's thrown away unless pushed, and the comment is the handoff.
 - **Write in thoughtbot's [voice and tone](https://thoughtbot.com/playbook/the-thoughtbot-way/brand/voice-and-tone).** The team reads this comment. Conversational, contractions, short sentences, numerals (3, not three), no emoji. The template's fixed wording stays word for word.
 
 The final reply is the comment, so it carries nothing else:

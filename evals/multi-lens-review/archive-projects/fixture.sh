@@ -4,9 +4,9 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 bash "$(dirname "$0")/../rails-app.sh"
 
-mkdir -p docs/specs
+mkdir -p specs
 
-cat > docs/specs/archive-projects.md <<'MD'
+cat > specs/archive-projects.md <<'MD'
 # Archive projects
 
 Owners can archive a project they're done with, so it drops off their

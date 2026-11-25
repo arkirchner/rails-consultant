@@ -2,8 +2,8 @@
 set -euo pipefail
 source "$(dirname "$0")/../billing-app.sh"
 
-mkdir -p docs/specs
-cat > docs/specs/send-invoices-to-ledgerly.md <<'MD'
+mkdir -p specs
+cat > specs/send-invoices-to-ledgerly.md <<'MD'
 # Send invoices to Ledgerly
 
 Accounting wants every invoice in Ledgerly, their bookkeeping service.

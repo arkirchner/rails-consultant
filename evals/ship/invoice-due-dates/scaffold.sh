@@ -2,8 +2,8 @@
 set -euo pipefail
 source "$(dirname "$0")/../billing-app.sh"
 
-mkdir -p docs/specs
-cat > docs/specs/invoice-due-dates.md <<'MD'
+mkdir -p specs
+cat > specs/invoice-due-dates.md <<'MD'
 # Invoice due dates
 
 Customers keep asking when an invoice is due. Show it, and flag the late ones.

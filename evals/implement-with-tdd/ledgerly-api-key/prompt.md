@@ -5,4 +5,4 @@ timeout_seconds: 1800
 allowed_tools: [Read, Glob, Grep, Skill, Bash, Write]
 ---
 
-Implement docs/specs/send-invoices-to-ledgerly.md with TDD.
+Implement specs/send-invoices-to-ledgerly.md with TDD.

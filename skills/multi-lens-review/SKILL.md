@@ -34,7 +34,7 @@ What's scarce in a review is the author's trust, not their reading time.
 
 ### 1. Fix the target
 
-The user can supply a PR number, a branch, or paths. Decide intent-or-target by what a file says, not where it sits: a file that reads as acceptance criteria is the intent, in `docs/specs/` or anywhere else, and a directory or a source path is a target. Ask when a doc argument isn't obviously criteria — reviewing a SPEC file against nothing is a wasted run.
+The user can supply a PR number, a branch, or paths. Decide intent-or-target by what a file says, not where it sits: a file that reads as acceptance criteria is the intent, in `specs/` or anywhere else, and a directory or a source path is a target. Ask when a doc argument isn't obviously criteria — reviewing a SPEC file against nothing is a wasted run.
 
 Resolve it to one diff, then capture that diff to a file (`mktemp`) and hand every agent the same path. If each agent runs its own `git diff` instead, one reviews the commits while another reviews the working tree, and their findings won't line up with each other or with what the author sees.
 
@@ -77,7 +77,7 @@ Check the result before going further. An empty diff means stop and say so — f
 
 ### 2. Find the intent
 
-Fidelity needs acceptance criteria the change was measured against. Two places hold them: a path supplied by the user, or `docs/specs/`, where `/slice` writes. Match on the branch name or a slug in the commit messages, and if two are close, ask instead of guessing. A PR has both locally, because step 1 checked its branch out.
+Fidelity needs acceptance criteria the change was measured against. Two places hold them: a path supplied by the user, or `specs/`, where `/slice` writes. Match on the branch name or a slug in the commit messages, and if two are close, ask instead of guessing. A PR has both locally, because step 1 checked its branch out.
 
 PR bodies, issues, and commit messages don't count. They describe goals in prose, and prose doesn't draw a scope boundary — so creep is invisible against it, and every finding turns into an argument about what the sentence implied. Criteria or nothing.
 

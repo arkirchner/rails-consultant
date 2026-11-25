@@ -5,4 +5,4 @@ timeout_seconds: 3600
 allowed_tools: [Read, Glob, Grep, Skill, Bash, Write, Edit, Workflow]
 ---
 
-Ship docs/specs/send-invoices-to-ledgerly.md.
+Ship specs/send-invoices-to-ledgerly.md.

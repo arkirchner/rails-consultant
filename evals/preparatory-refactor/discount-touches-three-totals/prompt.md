@@ -5,4 +5,4 @@ timeout_seconds: 1800
 allowed_tools: [Read, Glob, Grep, Skill, Agent, Bash]
 ---
 
-I'm about to build docs/specs/discount-codes.md. Is there anything I should refactor first so the feature goes in easier?
+I'm about to build specs/discount-codes.md. Is there anything I should refactor first so the feature goes in easier?

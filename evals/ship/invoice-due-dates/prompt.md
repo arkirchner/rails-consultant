@@ -6,4 +6,4 @@ allowed_tools:
   [Read, Glob, Grep, Skill, Bash, Write, Edit, Workflow, AskUserQuestion]
 ---
 
-Ship docs/specs/invoice-due-dates.md.
+Ship specs/invoice-due-dates.md.

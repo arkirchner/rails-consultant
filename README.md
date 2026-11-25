@@ -98,12 +98,12 @@ of **new sessions** when building out a feature from start to finish.
 ### Running them as a workflow
 
 [`/ship`][31] runs steps 2 through 5 and opens a draft PR with `/pr --auto`.
-Use `/ship docs/specs/the-slug.md` in Claude Code to run the [dynamic
+Use `/ship specs/the-slug.md` in Claude Code to run the [dynamic
 workflow][21], or start the same phases with subagents in OpenCode or Codex:
 
 ```text
-OpenCode  Use the ship skill with docs/specs/the-slug.md.
-Codex     $ship docs/specs/the-slug.md
+OpenCode  Use the ship skill with specs/the-slug.md.
+Codex     $ship specs/the-slug.md
 ```
 
 Each step gets its own context, and each one commits with [`/commit`][32] before

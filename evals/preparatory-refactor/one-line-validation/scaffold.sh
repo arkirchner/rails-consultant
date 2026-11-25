@@ -2,8 +2,8 @@
 set -euo pipefail
 source "$(dirname "$0")/../shop-app.sh"
 
-mkdir -p docs/specs
-cat > docs/specs/product-name-length.md <<'MD'
+mkdir -p specs
+cat > specs/product-name-length.md <<'MD'
 # Product name length
 
 Product names under 3 characters keep slipping into the catalog ("A", "Mg") and look broken on the storefront.
